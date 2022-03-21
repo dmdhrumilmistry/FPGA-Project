@@ -165,5 +165,5 @@ cython_debug/
 *.jpg
 *.bmp
 *.trained
-*.out
+*.out*
 *test*
