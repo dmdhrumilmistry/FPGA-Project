@@ -1,17 +1,26 @@
 /*
-Module : prng (Psuedo Random Number Generator)
-Description : Generates pseudo 32bit random numbers using LSFR
+Author: dmdhrumilmistry
+Module: prng (Psuedo Random Number Generator)
+Parameter: LSFR_SIZE (int): size of the LSFR, Higher number provides more random numbers.
+Description: Generates pseudo 32bit random numbers using LSFR.
 */
 
 module prng #(parameter LSFR_SIZE = 32) (
-    input clk,
-    input rst_n,
-    output reg [LSFR_SIZE-1:0] data // 32 bit data
+    input                       clk,    // clk pin
+    input                       rst_n,  // reset pin  
+    output reg [LSFR_SIZE-1:0]  data    // output data
 );
 
-// wire feedback = 0;
+// register to store feedback bit value
 reg feedback_bit = 0;
 
+/* 
+when positive edge is detected in clock, then
+- if reset is high
+    - reset data to max value
+- else
+    - assign new value
+*/
 always @ (posedge clk) begin
     // active high 
     if (rst_n) begin
@@ -20,12 +29,21 @@ always @ (posedge clk) begin
 
     else begin
         data <= {data[LSFR_SIZE-2:0], feedback_bit};
-    end
-end
+    end // end if (rst_n)
+end // end always @ (posedge clk)
 
 
+/*
+When any event is detected then calculate new 
+feedback_bit value according to the LSFR_SIZE
+parameter primitive polynomial.
+*/
 always @ (*) begin
     case (LSFR_SIZE)
+        2: begin
+            feedback_bit = data[1] ^ data[0];
+        end
+
         3: begin
             feedback_bit = data[2] ^ data[1];
         end
@@ -117,7 +135,7 @@ always @ (*) begin
         32: begin
             feedback_bit = data[31] ^ data[28];
         end
-    endcase
-end
+    endcase // end case (LSFT_SIZE)
+end // end always @ (*)
 
-endmodule
+endmodule // end prng
