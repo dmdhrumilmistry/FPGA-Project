@@ -1,5 +1,5 @@
 `include "prng.v"
-`timescale 1ns/1ps
+`timescale 1ns/1ns
 
 module prng_tb;
     reg clk, rst;
@@ -10,10 +10,13 @@ module prng_tb;
         clk = 0;
         rst = 1;
         #15 rst = 0;
-        $monitor("%d\t%b", data, data);
+        $dumpfile("prng_tb.vcd");
+        $dumpvars(0, prng_tb);
+        // $monitor("%d\t%b", data, data);
+        $display("Test Complete and data written to prng_tb.vcd");
         #2000 $finish;
     end
 
-    always #5 clk = ~clk;
+    always #1 clk = ~clk;
 
 endmodule

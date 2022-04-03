@@ -160,10 +160,18 @@ cython_debug/
 
 
 ### custom data
+
+# for images
+*test*
 *.png
 *.jpeg
 *.jpg
 *.bmp
+
+# for neural network data
 *.trained
+
+# for simulations
 *.out*
-*test*
+*.vvp*
+*.vcd*
