@@ -2,9 +2,11 @@
 `timescale 1ns/1ns
 
 module prng_tb;
+
     reg clk, rst;
-    wire [31:0] data;
-    prng random_num_generator(clk, rst, data);
+    parameter lsfr_size = 17;
+    wire [lsfr_size-1:0] data;
+    prng#(.LSFR_SIZE(lsfr_size)) random_num_generator(clk, rst, data);
 
     initial begin
         clk = 0;
