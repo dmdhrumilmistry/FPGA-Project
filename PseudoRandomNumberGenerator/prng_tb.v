@@ -4,7 +4,7 @@
 module prng_tb;
 
     reg clk, rst;
-    parameter lsfr_size = 17;
+    parameter lsfr_size = 32;
     wire [lsfr_size-1:0] data;
     prng#(.LSFR_SIZE(lsfr_size)) random_num_generator(clk, rst, data);
 
